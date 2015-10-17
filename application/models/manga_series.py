@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import requests
+from kivy.logger import Logger
 from sqlalchemy import Column, Text, String, Integer, SmallInteger, DateTime
 
 from application.models import db, Base, IDMixin, CreatedModifiedMixin
@@ -47,12 +48,14 @@ class MangaSeries(Base, IDMixin, CreatedModifiedMixin):
 
 
         # Make the request
-        r = requests.get(url, params=params)
+        try:
+            r = requests.get(url, params=params)
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            Logger.error('HTTPError: {}'.format(e))
+            raise e
 
-        if 'manga' not in r.json():
-            # @TODO Surface an exception
-            return
-
+        # Save all records to the database
         for manga in r.json()['manga']:
             try:
                 lts = datetime.fromtimestamp(float(manga.get('ld')))
