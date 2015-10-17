@@ -1,0 +1,2 @@
+MANGAEDEN_API_URL = 'https://www.mangaeden.com/api'
+SQLITE_DB_LOCATION = 'sqlite:///mangareader.db'

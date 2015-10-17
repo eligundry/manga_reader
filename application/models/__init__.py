@@ -1,13 +1,37 @@
+from datetime import datetime
+
+from sqlalchemy import create_engine, func, Column, Integer, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+from config import SQLITE_DB_LOCATION
+
+# Build the DB engine
+engine = create_engine(SQLITE_DB_LOCATION)
+session_factory = sessionmaker(bind=engine)
+db = session_factory()
+
+# Base model for all models
+Base = declarative_base()
+
 class IDMixin(object):
-    pass
+    """
+    Adds an integer primary key to a table
+    """
+    id = Column(Integer, primary_key=True)
 
 class CreatedModifiedMixin(object):
-    pass
+    """
+    Adds auto updating and creating of creation and modified timestamps
+    """
+    created = Column(DateTime, default=datetime.utcnow, nullable=False)
+    modified = Column(DateTime, default=datetime.utcnow,
+                      onupdate=func.current_timestamp(), nullable=False)
 
-from application.models.manga_list import MangaList
+from application.models.manga_series import MangaSeries
 
 __all__ = [
     'IDMixin',
     'CreatedModifiedMixin',
-    'MangaList',
+    'MangaSeries',
 ]
