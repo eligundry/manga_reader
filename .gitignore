@@ -47,3 +47,6 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
+
+# App Specific
+config.py
