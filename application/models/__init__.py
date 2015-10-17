@@ -6,10 +6,14 @@ from sqlalchemy.orm import sessionmaker
 
 from config import SQLITE_DB_LOCATION
 
-# Build the DB engine
-engine = create_engine(SQLITE_DB_LOCATION)
-session_factory = sessionmaker(bind=engine)
-db = session_factory()
+def setup_database(db_location=SQLITE_DB_LOCATION):
+    engine = create_engine(SQLITE_DB_LOCATION)
+    session_factory = sessionmaker(bind=engine)
+    db = session_factory()
+
+    return engine, db
+
+engine, db = setup_database()
 
 # Base model for all models
 Base = declarative_base()
