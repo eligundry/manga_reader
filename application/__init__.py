@@ -4,9 +4,10 @@ import kivy
 kivy.require('1.9.0')
 
 from kivy.app import App
-from kivy.uix.label import Label
+from kivy.uix.floatlayout import FloatLayout
 
 from application.models import engine, Base
+from application.views import MangaSeriesView
 from config import SQLITE_DB_LOCATION
 
 class MangaReader(App):
@@ -14,4 +15,4 @@ class MangaReader(App):
         # Init the database
         Base.metadata.create_all(engine)
 
-        return Label(text='Hello World')
+        return MangaSeriesView()

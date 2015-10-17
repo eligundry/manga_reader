@@ -5,8 +5,8 @@ class TestMangaSeriesHydrate(BaseTestCase):
 
     def test_hydrate(self):
         # Load up 25 series in the db
-        MangaSeries.hydrate(page=1, per_page=25)
+        MangaSeries.hydrate(page=1, per_page=100)
 
         # Query them all
         series = db.query(MangaSeries).all()
-        assert len(series) == 25
+        assert len(series) == 100
